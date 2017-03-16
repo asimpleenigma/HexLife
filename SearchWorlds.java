@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package hexlife;
 
@@ -20,7 +17,7 @@ public class SearchWorlds implements Serializable{
         
         int n_rows = 64;
         int n_cols = n_rows*2;
-        HexWorld model = new HexWorld(n_rows, n_cols);
+        HexModel model = new HexModel(n_rows, n_cols);
         for (RuleSet rs : rl.RL){
             model.rule_set = rs;
             model.randomizeWorld();
