@@ -96,7 +96,7 @@ public class SearchWorlds implements Serializable{
             RuleList mb = search();
 
             // write object to file
-            FileOutputStream fos = new FileOutputStream("mybean.ser");
+            FileOutputStream fos = new FileOutputStream("rule_sets.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(mb);
             oos.close();
@@ -114,7 +114,7 @@ public class SearchWorlds implements Serializable{
         try {
 
             // read object from file
-            FileInputStream fis = new FileInputStream("mybean.ser");
+            FileInputStream fis = new FileInputStream("rule_sets.ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             result = (RuleList) ois.readObject();
             ois.close();
