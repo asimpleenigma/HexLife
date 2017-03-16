@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package hexlife;
 
@@ -18,7 +15,7 @@ import java.util.HashMap;
 public class HexLife extends JFrame implements ActionListener{
     
     
-    int n_rows = 64;
+    int n_rows = 32;
     int n_cols = n_rows*2;
     private int delay;
     private Timer timer;
@@ -26,61 +23,22 @@ public class HexLife extends JFrame implements ActionListener{
     private JLabel hotkey_legend;
     private String primed_key;
     public int k = 0;
-    public HexWorld model;
+    public HexModel model;
     //public JPanel world_panel;
 
     public static void main(String[] args) {
-        boolean runlife = true;
-        if (runlife){
-            HexLife app = new HexLife();
-        } else {
-            //SearchWorlds.writeFile();
-
-            RuleList rl = SearchWorlds.readFile();
-            int k = 0;
-            for ( RuleSet rs : rl.RL){
-                if ((rs.first_deriv < .1)&&(rs.first_deriv >0)&&(rs.cycle_2 > 0.05)){
-                    k++;
-                    System.out.println(rs.toString());
-                }
-            }    
-            System.out.println(k);
-        }
-        
-        //System.out.println("hello");
-        
-        //SearchWorlds.search();
-        /*
-        
-        */
-        //RuleSet rs = rl.RL.get(1);
-        //System.out.println(rs.name);
-        //System.out.println(Arrays.toString(rs.B));
-        /*
-        for (int[] a : rl.BL){
-            System.out.println(Arrays.toString(a));
-        }
-        for (int[] a : rl.SL){
-            System.out.println(Arrays.toString(a));
-        }
-        
-        */
+        HexLife app = new HexLife();
     }
     public HexLife() {
         //countNeighbors(2,2);
         //world[1][0] = true;
-        model = new HexWorld(n_rows, n_cols);
+        model = new HexModel(n_rows, n_cols);
         
         setTitle("Hex Life");
         setSize(1200, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        //rule_selector = new RuleSelector();
         //System.out.println(rule_selector);
-        //rule_set = new RuleSet("Conway's Life", new int[]{3}, new int[]{2,3}); 
-            //rules.addPattern("Toad", "t", new Point[]{new Point(0,0), new Point(1,0))  
-            
-        //rule_set = new RuleSet("Makenzey's Life", new int[]{2}, new int[]{4});
 
         // Master Panel
         JPanel master_panel = (JPanel) this.getContentPane();
@@ -96,13 +54,18 @@ public class HexLife extends JFrame implements ActionListener{
         master_panel.add(control_panel, BorderLayout.WEST);
         
         
+        
+        
         // Button Panel
         JPanel button_panel = new JPanel();
         button_panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         button_panel.setLayout(new GridLayout(5, 1, 5, 5));
         button_panel.setMaximumSize(new Dimension(200, 200));
         
-        //button_panel.add(rule_selector);
+        //System.out.println(model.rule_sets);
+
+        rule_selector = new RuleSelector();
+        button_panel.add(rule_selector);
         // Pause Button
         JButton pause_button = new JButton("Play");
         button_panel.add(pause_button);
@@ -145,8 +108,10 @@ public class HexLife extends JFrame implements ActionListener{
             rule_selector.addItem(name);
         }
         // Hotkey Legend
-        //control_panel.add(hotkey_legend);
         */
+        hotkey_legend = new JLabel();
+        control_panel.add(hotkey_legend);
+        
         // Speed Slider
         control_panel.add(new JLabel("Speed"));
         JSlider speed_slider = new JSlider(JSlider.HORIZONTAL, 1, 30, 10); // timesteps per second
@@ -238,6 +203,9 @@ public class HexLife extends JFrame implements ActionListener{
     private class RuleSelector extends JComboBox{
         public RuleSelector(){
             super();
+            for (String name : model.rule_sets.keySet()){ 
+                addItem(name);
+            }
             this.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
