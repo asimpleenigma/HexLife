@@ -11,7 +11,7 @@ public class RuleList implements Serializable{
     
     public RuleList(){
         RL = new ArrayList<RuleSet>();
-        ArrayList<ArrayList<Integer>> power_set = powerSet(5);
+        ArrayList<ArrayList<Integer>> power_set = powerSet(7);
         for (ArrayList<Integer> B: power_set){ // populate the Rule List with the square of the power set.
             for (ArrayList<Integer> S : power_set){
                 RuleSet rs = new RuleSet("", B, S);
